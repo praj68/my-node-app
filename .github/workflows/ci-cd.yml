@@ -1,0 +1,31 @@
+# .github/workflows/ci-cd.yml
+name: CI/CD Pipeline for Node.js App
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests (optional)
+      run: echo "No tests defined"
+
+    - name: Build Docker Image
+      run: docker build -t my-node-app .
+
+    - name: Run Docker Container
+      run: docker run -d -p 3000:3000 my-node-app
